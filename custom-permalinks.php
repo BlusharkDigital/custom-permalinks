@@ -43,6 +43,18 @@ if ( ! defined( 'CUSTOM_PERMALINKS_FILE' ) ) {
 	define( 'CUSTOM_PERMALINKS_FILE', __FILE__ );
 }
 
+// Block WordPress.org from serving updates for this plugin.
+add_filter(
+	'site_transient_update_plugins',
+	function ( $transient ) {
+		$plugin_file = plugin_basename( CUSTOM_PERMALINKS_FILE );
+		if ( isset( $transient->response[ $plugin_file ] ) ) {
+			unset( $transient->response[ $plugin_file ] );
+		}
+		return $transient;
+	}
+);
+
 // GitHub update checker.
 require_once plugin_dir_path( CUSTOM_PERMALINKS_FILE ) . 'vendor/autoload.php';
 $update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
