@@ -43,5 +43,14 @@ if ( ! defined( 'CUSTOM_PERMALINKS_FILE' ) ) {
 	define( 'CUSTOM_PERMALINKS_FILE', __FILE__ );
 }
 
+// GitHub update checker.
+require_once plugin_dir_path( CUSTOM_PERMALINKS_FILE ) . 'vendor/autoload.php';
+$update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+	'https://github.com/BlusharkDigital/custom-permalinks',
+	CUSTOM_PERMALINKS_FILE,
+	'custom-permalinks-BSD'
+);
+$update_checker->getVcsApi()->enableReleaseAssets();
+
 // Include the main Custom Permalinks class.
 require_once plugin_dir_path( CUSTOM_PERMALINKS_FILE ) . 'includes/class-custom-permalinks.php';
